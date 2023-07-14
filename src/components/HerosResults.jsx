@@ -12,7 +12,7 @@ const HerosResults = () => {
     
 
     useEffect(() => {
-      getHeroes().then((res)=> setHeroes(res.data.results))
+      getHeroes().then((res)=> setHeroes(res))
     
       
     }, [])

@@ -20,7 +20,30 @@ export function useApi(){
 
     async function getHeroes(){
 
-        const charactersUrl = `${baseUrl}/characters?limit=100&${query}`;
+        const heroesList =  new Promise((resolve, reject)=>{
+            const randomIndex = Math.floor(Math.random()*(1461))
+            const charactersUrl = `${baseUrl}/characters?offset=${randomIndex}&limit=100&${query}`;
+            fetch(charactersUrl)
+            .then(res => res.json())    
+            .then((response) => (response.data.results))
+            .then((characters)=> characters.filter((character)=>{
+                //erase unaviable images
+                return character.thumbnail.path !== 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available' 
+
+            }))
+
+            .then(characters => resolve(characters))
+            .catch((error) => reject(error));
+            })
+        
+        
+
+        console.log('una llamada');
+
+        return heroesList
+
+
+        
 
         /* return new Promise((resolve, reject) =>{
             fetch(charactersUrl)
@@ -33,13 +56,6 @@ export function useApi(){
 
         })  */
 
-        return await fetch(charactersUrl)
-        .then(res => res.json())    
-        .then((characters) => { 
-            console.log(characters);
-            return(characters)
-    })
-    .catch((error) => console.log(error));
 
 
 
