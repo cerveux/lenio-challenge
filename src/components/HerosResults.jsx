@@ -27,10 +27,14 @@ const HerosResults = () => {
   return (
     <div className='container mx-auto p-2 flex flex-wrap justify-center max-w-[1200px]'>
       {heroes.map((heroe)=>{
+        const image = (heroe.thumbnail.extension == 'jpg') & (heroe.thumbnail.path !== 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available')
         return(
+          
+          ( image) ?
         <div key={heroe.id}>
           <HeroCard image={heroe.thumbnail.path + '.jpg'} name={heroe.name} />
-          </div>)
+          </div> :
+          <></>)
       })}
        
     </div>

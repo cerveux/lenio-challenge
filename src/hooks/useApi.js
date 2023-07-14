@@ -18,11 +18,11 @@ console.log(hash);
  */
 export function useApi(){
 
-    function getHeroes(){
+    async function getHeroes(){
 
-        const charactersUrl = `${baseUrl}/characters?orderBy=-modified&limit=100&${query}`;
+        const charactersUrl = `${baseUrl}/characters?limit=100&${query}`;
 
-        return new Promise((resolve, reject) =>{
+        /* return new Promise((resolve, reject) =>{
             fetch(charactersUrl)
             .then(res => res.json())    
             .then((characters) => { 
@@ -31,7 +31,15 @@ export function useApi(){
         })
         .catch((error) => reject(error));
 
-        }) 
+        })  */
+
+        return await fetch(charactersUrl)
+        .then(res => res.json())    
+        .then((characters) => { 
+            console.log(characters);
+            return(characters)
+    })
+    .catch((error) => console.log(error));
 
 
 
@@ -41,22 +49,6 @@ export function useApi(){
         
     }
     
-
-
-    //async function getHeroes(){
-        /* console.log(response.data.results); */
-        /* const response = await fetch('https://gateway.marvel.com/v1/public/characters?ts=1689299322305&apikey=9938ec8bccb5d6829f1a12f9fbf09478&hash=36f1ecebe070175ad956f71b779e635c')
-        console.log(response);
-        return response.data.results */
-        /* console.log(`Fetching ${url}`); */
-  /* const response = await fetch(url);
-  const jsonData = await response.json();
-  const data = jsonData.data.results;
-  console.log(data);
-  return data.data.results */
-
-    //}
-
 
     return {getHeroes}
 
