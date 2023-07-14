@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import './App.css'
 import Home from './screens/Home'
 import NavBar from './components/NavBar'
 import Heroes from './screens/Heroes'
 import { useApi } from './hooks/useApi'
+import './styles/App.css'
 
 function App() {
   const [count, setCount] = useState(0)
