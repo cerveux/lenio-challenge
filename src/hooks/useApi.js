@@ -28,7 +28,7 @@ export function useApi(){
             .then((response) => (response.data.results))
             .then((characters)=> characters.filter((character)=>{
                 //erase unaviable images
-                return character.thumbnail.path !== 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available' 
+                return character.thumbnail.path !== 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available' && character.thumbnail.path !=='http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708'
 
             }))
 
