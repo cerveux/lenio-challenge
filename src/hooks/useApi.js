@@ -18,11 +18,34 @@ console.log(hash);
  */
 export function useApi(){
 
-    function getHeroes(){
+    async function getHeroes(){
 
-        const charactersUrl = `${baseUrl}/characters?orderBy=-modified&limit=100&${query}`;
+        const heroesList =  new Promise((resolve, reject)=>{
+            const randomIndex = Math.floor(Math.random()*(1461))
+            const charactersUrl = `${baseUrl}/characters?offset=${randomIndex}&limit=100&${query}`;
+            fetch(charactersUrl)
+            .then(res => res.json())    
+            .then((response) => (response.data.results))
+            .then((characters)=> characters.filter((character)=>{
+                //erase unaviable images
+                return character.thumbnail.path !== 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available' && character.thumbnail.path !=='http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708'
 
-        return new Promise((resolve, reject) =>{
+            }))
+
+            .then(characters => resolve(characters))
+            .catch((error) => reject(error));
+            })
+        
+        
+
+        console.log('una llamada');
+
+        return heroesList
+
+
+        
+
+        /* return new Promise((resolve, reject) =>{
             fetch(charactersUrl)
             .then(res => res.json())    
             .then((characters) => { 
@@ -31,7 +54,8 @@ export function useApi(){
         })
         .catch((error) => reject(error));
 
-        }) 
+        })  */
+
 
 
 
@@ -41,22 +65,6 @@ export function useApi(){
         
     }
     
-
-
-    //async function getHeroes(){
-        /* console.log(response.data.results); */
-        /* const response = await fetch('https://gateway.marvel.com/v1/public/characters?ts=1689299322305&apikey=9938ec8bccb5d6829f1a12f9fbf09478&hash=36f1ecebe070175ad956f71b779e635c')
-        console.log(response);
-        return response.data.results */
-        /* console.log(`Fetching ${url}`); */
-  /* const response = await fetch(url);
-  const jsonData = await response.json();
-  const data = jsonData.data.results;
-  console.log(data);
-  return data.data.results */
-
-    //}
-
 
     return {getHeroes}
 
