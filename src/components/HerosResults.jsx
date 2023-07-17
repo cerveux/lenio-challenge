@@ -2,27 +2,30 @@ import React, { useState, useEffect } from "react";
 import HeroCard from "./HeroCard";
 import { useApi } from "../hooks/useApi";
 
-import { useProvider, useTasksDispatch } from "../context/AppContextProvider";
+import { useProvider, useHeroDispatch } from "../context/AppContextProvider";
 
-const HerosResults = () => {
+const HerosResults = () => { 
   const [random, setRandom] = useState(null)
+
+  
+
 
   const heroesContext = useProvider();
 
   const heroes = heroesContext.heroes;
 
+  console.log(heroes);
 
-  const { getHeroes } = useApi();
 
-  const dispatch = useTasksDispatch();
+  const { getHeroes, prueba } = useApi();
+
+  const dispatch = useHeroDispatch();
 
   useEffect(() => {
-    getHeroes().then((res)=> {dispatch({
-      type: 'added',
-      heroes: (res)
-    })
-    setRandom(Math.floor(Math.random() * res.length))}
-    )
+    setRandom(Math.floor(Math.random() * heroes.length));
+    heroes.length == 0 &&
+    getHeroes()
+    /* setRandom(Math.floor(Math.random() * res.length)) */
 
 
     
@@ -31,16 +34,13 @@ const HerosResults = () => {
 
   return heroesContext.isFirstVisit ? (
     <section>
-      {random !== null ?
+      {heroes.length !== 0 ?
       <div className="hero-container mx-auto flex content-center justify-center items-center flex-col">
       
 
         <h2 className=" text-3xl font-bold mt-10 mb-5">Random Hero</h2>
         
-        <HeroCard
-        image={heroes[random].thumbnail.path + "." + heroes[random].thumbnail.extension}
-        name={heroes[random].name}
-      />
+        <HeroCard index={random} source={'heroes'} />
 
         
         <button 
@@ -54,13 +54,10 @@ const HerosResults = () => {
     </section>
   ) : (
     <section className="container mx-auto p-2 flex flex-wrap justify-center max-w-[1200px]">
-      {heroes.map((heroe, index) => {
+      {heroes.map((hero, index) => {
         return (
           <div key={index}>
-            <HeroCard
-              image={heroe.thumbnail.path + "." + heroe.thumbnail.extension}
-              name={heroe.name}
-            />
+            <HeroCard index={index} source={'heroes'} />
           </div>
         );
       })}
