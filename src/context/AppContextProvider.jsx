@@ -5,13 +5,13 @@ const HeroesContext = createContext(null);
 const HeroesDispatchContext = createContext(null);
 
 export function AppContextProvider({ children }) {
-  const [tasks, dispatch] = useReducer(
-    tasksReducer,
-    initialTasks
+  const [heroes, dispatch] = useReducer(
+    heroesReducer,
+    initialHeroes
   );
 
   return (
-    <HeroesContext.Provider value={tasks}>
+    <HeroesContext.Provider value={heroes}>
       <HeroesDispatchContext.Provider value={dispatch}>
         {children}
       </HeroesDispatchContext.Provider>
@@ -23,36 +23,31 @@ export function useProvider() {
   return useContext(HeroesContext);
 }
 
-export function useTasksDispatch() {
+export function useHeroDispatch() {
   return useContext(HeroesDispatchContext);
 }
 
-function tasksReducer(tasks, action) {
+function heroesReducer(heroes, action) {
   switch (action.type) {
     case 'added': 
-      return { ...tasks, heroes: action.heroes};
+      return { ...heroes, heroes: action.heroes};
 
     case 'watched':
-      return {...tasks, isFirstVisit: false}
+      return {...heroes, isFirstVisit: false}
+
+    case 'comics':
+      console.log("entro aca");
+      return {...heroes, comics: action.comics}
     
-    case 'changed': {
-      return tasks.map(t => {
-        if (t.id === action.task.id) {
-          return action.task;
-        } else {
-          return t;
-        }
-      });
-    }
-    case 'deleted': {
-      return tasks.filter(t => t.id !== action.id);
-    }
     default: {
       throw Error('Unknown action: ' + action.type);
     }
   }
 }
 
-const initialTasks = {
+const initialHeroes = {
   isFirstVisit: true,
-  heroes: []};
+  heroes: [],
+  results: [],
+  comics: []
+};
