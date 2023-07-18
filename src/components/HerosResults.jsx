@@ -4,37 +4,32 @@ import { useApi } from "../hooks/useApi";
 
 import { useProvider, useHeroDispatch } from "../context/AppContextProvider";
 
-const HerosResults = () => { 
+const HerosResults = ({}) => { 
   const [random, setRandom] = useState(null)
 
-  
-
-
   const heroesContext = useProvider();
-
-  const heroes = heroesContext.heroes;
-
-  console.log(heroes);
+  const fullHeroesList = heroesContext.heroes;
+  const heroes = heroesContext.paginate;
 
 
-  const { getHeroes, prueba } = useApi();
+
+  const { getHeroes } = useApi();
 
   const dispatch = useHeroDispatch();
 
   useEffect(() => {
-    setRandom(Math.floor(Math.random() * heroes.length));
     heroes.length == 0 &&
     getHeroes()
-    /* setRandom(Math.floor(Math.random() * res.length)) */
-
-
-    
-
   }, [])
+
+  useEffect(() => {
+    setRandom(Math.floor(Math.random() * heroes.length));
+  }, [heroes])
+  
 
   return heroesContext.isFirstVisit ? (
     <section>
-      {heroes.length !== 0 ?
+      {fullHeroesList.length !== 0 ?
       <div className="hero-container mx-auto flex content-center justify-center items-center flex-col">
       
 
@@ -57,7 +52,7 @@ const HerosResults = () => {
       {heroes.map((hero, index) => {
         return (
           <div key={index}>
-            <HeroCard index={index} source={'heroes'} />
+            <HeroCard index={index} source={'paginate'} />
           </div>
         );
       })}
