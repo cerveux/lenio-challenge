@@ -13,7 +13,7 @@ const HerosResults = ({}) => {
 
 
 
-  const { getHeroes } = useApi();
+  const { getHeroes, prueba } = useApi();
 
   const dispatch = useHeroDispatch();
 
