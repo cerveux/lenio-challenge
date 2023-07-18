@@ -38,6 +38,9 @@ function heroesReducer(heroes, action) {
     case 'comics':
       console.log("entro aca");
       return {...heroes, comics: action.comics}
+
+    case 'new page': 
+      return { ...heroes, paginate: action.paginate};
     
     default: {
       throw Error('Unknown action: ' + action.type);
@@ -49,5 +52,6 @@ const initialHeroes = {
   isFirstVisit: true,
   heroes: [],
   results: [],
-  comics: []
+  comics: [],
+  paginate: []
 };
