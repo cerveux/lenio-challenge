@@ -1,7 +1,77 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import { useProvider, useHeroDispatch } from '../context/AppContextProvider'
+import { useApi } from '../hooks/useApi'
+ 
 const NavBar = () => {
+
+  const contextProvider = useProvider()
+  const dispatch = useHeroDispatch()
+  const { heroes, isFavorite, isFirstVisit} = contextProvider;
+  /* const isFavorite = contextProvider.isFavorite; */
+
+  const [searchParams, setSearchParams] = useState({
+    hero: '',
+    comic:''
+  })
+
+  const { prueba, getHeroes } = useApi()
+
+  
+  const handleChange = (event)=>{
+    const{ value, name } = event.target;
+    setSearchParams({
+      ...searchParams,
+      [name]: value
+    })
+    
+  }
+
+  const handleSubmit = (event)=>{
+    console.log("entro");
+    event.preventDefault
+    setSearchParams({
+      hero: '',
+      comic:''
+    })
+
+  }
+
+  const handleFavorite = ()=>{
+    dispatch({
+      type: "favorite",
+      favorite: !isFavorite
+    })
+
+  }
+  
+  useEffect(() => {
+    heroes.length == 0 && 
+    prueba() //CAMBIAR DE PRUEBA A GETHEROES PARA TRABAJAR CON LA API
+  }, [])
+
+  useEffect(()=>{
+    if (localStorage.getItem('lenio') === null) {
+      const string = JSON.stringify([])
+      localStorage.setItem('lenio', string)
+    }
+    const retString = localStorage.getItem('lenio');
+    const retArray = JSON.parse(retString)
+    const favoriteCharacters = heroes.filter((character)=>{
+      return retArray.includes(character.id)
+      
+    })
+    dispatch({
+      type: "favorite list",
+      favorites: favoriteCharacters
+    })
+      
+    
+
+
+
+  }, [heroes])
+
   return (
     <>
       <nav className=" bg-[#ffffff] h-20">
@@ -47,21 +117,25 @@ const NavBar = () => {
             </Link>
           </div>
           <div className="search-container container flex">
-            <form className="search-container my-auto border-2 border-gray-700 rounded-m w-full">
+            <form onSubmit={handleSubmit}  className="search-container my-auto border-2 border-gray-700 rounded-m w-full max-w-[1100px]">
 
               <div className="flex">
                 <input
                 type="text"
-                name=""
+                name="hero"
                 id=""
-                placeholder="Holo"
-                className=" flex-grow"
+                placeholder="Search by character"
+                className=" flex-grow px-2 outline-none "
+                onChange={handleChange}
+                value={searchParams.hero}
               ></input>
-              <Link className=" w-8 bg-slate-200">
-                <button className=" ml-2">
+
+              <Link to={`/search?character=${searchParams.hero}`} className=" w-8 bg-slate-200">
+                <button type="submit" className=" ml-2">
                   <i className="las la-search "></i>
                 </button>
               </Link>
+              
               </div>
               
               
@@ -69,10 +143,17 @@ const NavBar = () => {
           </div>
 
           <div className="star-container mt-3 ml-4">
-            <button className=" text-4xl">
-              <i className="las la-star text-amber-400"></i>
-              {/* <i className="lar la-star"></i> */}
-            </button>
+            {!isFirstVisit &&
+            <button className=" text-4xl"
+            onClick={handleFavorite}>
+    {isFavorite?
+      <i className="las la-star text-amber-400"></i>:
+      <i className="lar la-star"></i>
+
+    }
+    
+    </button>}
+            
           </div>
         </div>
       </nav>
