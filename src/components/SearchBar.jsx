@@ -1,7 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import { useProvider } from '../context/AppContextProvider'
+import { useApi } from '../hooks/useApi'
+ 
 const NavBar = () => {
+
+  const contextProvider = useProvider()
+  const heroes = contextProvider.heroes;
+
+  const [searchParams, setSearchParams] = useState({
+    hero: '',
+    comic:''
+  })
+
+  const { prueba, getHeroes } = useApi()
+
+  useEffect(() => {
+    heroes.length == 0 && 
+    getHeroes() //CAMBIAR DE PRUEBA A GETHEROES PARA TRABAJAR CON LA API
+  }, [])
+
+  const handleChange = (event)=>{
+    const{ value, name } = event.target;
+    setSearchParams({
+      ...searchParams,
+      [name]: value
+    })
+
+  }
+
   return (
     <>
       <nav className=" bg-[#ffffff] h-20">
@@ -47,21 +74,25 @@ const NavBar = () => {
             </Link>
           </div>
           <div className="search-container container flex">
-            <form className="search-container my-auto border-2 border-gray-700 rounded-m w-full">
+            <form onSubmit={(e)=>e.preventDefault}  className="search-container my-auto border-2 border-gray-700 rounded-m w-full">
 
               <div className="flex">
                 <input
                 type="text"
-                name=""
+                name="hero"
                 id=""
-                placeholder="Holo"
-                className=" flex-grow"
+                placeholder="Search by character"
+                className=" flex-grow px-2"
+                onChange={handleChange}
+                value={searchParams.hero}
               ></input>
-              <Link className=" w-8 bg-slate-200">
-                <button className=" ml-2">
+              {/* <input type="submit" value="search" className="hidden" /> */}
+              <Link to={`/search?character=${searchParams.hero}`} className=" w-8 bg-slate-200">
+                <button type="submit" className=" ml-2">
                   <i className="las la-search "></i>
                 </button>
               </Link>
+              
               </div>
               
               
