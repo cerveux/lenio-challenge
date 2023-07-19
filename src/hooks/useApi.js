@@ -11,7 +11,6 @@ const hash = md5(valueToHash);
 
 const query = `apikey=${publicKey}&ts=${ts}&hash=${hash}`;
 
-
 export function useApi() {
 
   const dispatch = useHeroDispatch();
@@ -73,12 +72,7 @@ export function useApi() {
   }
 
   async function prueba() {
-    const randomIndex = Math.floor(Math.random() * 1461);
-    const charactersUrl = `${baseUrl}/characters?offset=${randomIndex}&limit=100&${query}`;
-    console.log(heroesJson.data.results);
-
-
-
+    
     dispatch({
         type: "added",
         heroes: heroesJson.data.results
@@ -107,9 +101,6 @@ export function useApi() {
         });
       })
       .catch((error) => console.log(error)); */
-    
-
-    console.log("una llamada");
 
     return
   }

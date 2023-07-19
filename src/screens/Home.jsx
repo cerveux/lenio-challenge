@@ -1,4 +1,4 @@
-import React, { useEffect, useState }  from 'react'
+import React, { useEffect }  from 'react'
 import HerosResults from '../components/HerosResults'
 import { useProvider, useHeroDispatch } from "../context/AppContextProvider";
 import Pagination from '../components/Pagination';

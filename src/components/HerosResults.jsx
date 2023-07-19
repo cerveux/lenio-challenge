@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import HeroCard from "./HeroCard";
-import { useApi } from "../hooks/useApi";
-
 import { useProvider, useHeroDispatch } from "../context/AppContextProvider";
 
 const HerosResults = ({}) => { 
@@ -12,18 +10,12 @@ const HerosResults = ({}) => {
   const heroes = heroesContext.paginate;
 
 
-
-  const { getHeroes, prueba } = useApi();
-
   const dispatch = useHeroDispatch();
 
-  useEffect(() => {
-    heroes.length == 0 &&
-    getHeroes()
-  }, [])
+
 
   useEffect(() => {
-    setRandom(Math.floor(Math.random() * heroes.length));
+    setRandom(Math.floor(Math.random() * fullHeroesList.length));
   }, [heroes])
   
 

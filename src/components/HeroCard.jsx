@@ -53,7 +53,7 @@ const HeroCard = ({ index, source }) => {
             {comics.map((comic, index)=> {
               return (
                 
-                  <a href={comic.urls[0].url} target="_blank">
+                  <a href={comic.urls[0].url} target="_blank" key={index}>
                  <li className="list-disc text-slate-200"><p className="">{comic.title}</p> 
                 </li></a>
                 
