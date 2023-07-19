@@ -22,7 +22,9 @@ const HeroCard = ({ index, source }) => {
 
 
   
-  const imageSrc = heroesToShow[index].thumbnail.path + "." + heroesToShow[index].thumbnail.extension
+  let imageSrc = heroesToShow[index].thumbnail.path + "." + heroesToShow[index].thumbnail.extension
+  imageSrc = imageSrc.substring(0, 4) + "s" + imageSrc.substring(4, imageSrc.length)
+  console.log(imageSrc);
   const heroName = heroesToShow[index].name
   const id = heroesToShow[index].id
   
