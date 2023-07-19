@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import '../styles/HeroCard.css'
 import Modal from "./Modal";
 import { useBool } from "../hooks/useBool";
@@ -14,17 +14,78 @@ const HeroCard = ({ index, source }) => {
 
 
   const [isOpen, switchModal ] = useBool()
+  const [star, setStar] = useState(false)
 
   const heroesContext = useProvider();
-  const heroes = heroesContext[source];
-  const comics = heroesContext.comics
+  const heroesToShow = heroesContext[source];
+  const {comics, heroes} = heroesContext
 
-  const imageSrc = heroes[index].thumbnail.path + "." + heroes[index].thumbnail.extension
-  const heroName = heroes[index].name
+
+  
+  const imageSrc = heroesToShow[index].thumbnail.path + "." + heroesToShow[index].thumbnail.extension
+  const heroName = heroesToShow[index].name
+  const id = heroesToShow[index].id
+  
+  const handleFavorite = ()=>{
+    setStar(!star)
+ 
+    const retString = localStorage.getItem('lenio');
+    const retArray = JSON.parse(retString)
+
+    if(retArray.includes(id)){
+      const newFavoriteArray = retArray.filter((value)=>{
+        return value !== id
+      })
+      const string = JSON.stringify(newFavoriteArray)
+      localStorage.setItem('lenio', string)
+      const favoriteCharacters = heroes.filter((character)=>{
+        return newFavoriteArray.includes(character.id)
+
+      })
+      dispatch({
+        type: "favorite list",
+        favorites: favoriteCharacters
+      })
+
+    }else{
+      retArray.push(id)
+      const string = JSON.stringify(retArray)
+      localStorage.setItem('lenio', string)
+      const favoriteCharacters = heroes.filter((character)=>{
+        return retArray.includes(character.id)
+  
+      })
+      dispatch({
+        type: "favorite list",
+        favorites: favoriteCharacters
+      })
+      
+    }
+
+  }
+
+
+
+
+
+
+  useEffect(()=>{
+    const retString = localStorage.getItem('lenio');
+    const retArray = JSON.parse(retString)
+    setStar(retArray.includes(id))
+
+  },[id])
+
+  const checkFavorite = ()=>{
+    const retString = localStorage.getItem('lenio');
+    const retArray = JSON.parse(retString)
+
+    return retArray.includes(id)
+  }
 
   const handleOpenModal = ()=>{
     switchModal()
-    getComics(heroes[index].id)
+    getComics(heroesToShow[index].id)
     .then(res=>{dispatch({
       type: 'comics',
       comics: (res)
@@ -41,7 +102,12 @@ const HeroCard = ({ index, source }) => {
           <p className=" text-xl text-white font-bold hero-name">{heroName}</p>
         </div>
         <div className="favorite-container absolute text-4xl text-white right-2 top-2">
+          <button onClick={handleFavorite}>
+            {star?
+          <i className="las la-star text-amber-400"></i>:
           <i className="lar la-star"></i>
+            }
+          </button>
         </div>
         
       </div>

@@ -8,12 +8,9 @@ const Home = () => {
   const dispatch = useHeroDispatch();
 
   const heroesContext = useProvider();
-  const heroes = heroesContext.heroes;
-  const heroesPage = heroesContext.paginate;
+  const { heroes, isFavorite, isFirstVisit } = heroesContext;
 
   const heroesPerPage = 100;
-
-
 
   const arraySlicer = (page = 1)=>{
     const lastHeroIndex = page * heroesPerPage;
@@ -30,7 +27,7 @@ const Home = () => {
       paginate: currentHeroes,
     });
 
-  },[heroes] );
+  },[heroes, isFavorite] );
 
   const handleCurrentPage = (page)=>{
     const currentHeroes = arraySlicer(page)
@@ -40,11 +37,10 @@ const Home = () => {
     });
   }
 
-  return (
-    
+  return ( 
     <section className='bg-[#f7f8fa] h-screen'>
-      <HerosResults hereosResults={heroesPage} />
-      {!heroesContext.isFirstVisit && <Pagination heroePerPage={heroesPerPage} handleCurrentPage={handleCurrentPage}/>}
+      <HerosResults />
+      {(!isFirstVisit && !isFavorite) && <Pagination heroePerPage={heroesPerPage} handleCurrentPage={handleCurrentPage}/>}
       
     </section>
 

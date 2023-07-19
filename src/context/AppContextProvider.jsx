@@ -44,6 +44,12 @@ function heroesReducer(heroes, action) {
     case 'query param': 
       return { ...heroes, querySearch: action.query};
 
+    case 'favorite': 
+    return {...heroes, isFavorite: action.favorite}
+
+    case "favorite list": 
+    return {...heroes, favorites: action.favorites}
+
     default: {
       throw Error('Unknown action: ' + action.type);
     }
@@ -52,9 +58,11 @@ function heroesReducer(heroes, action) {
 
 const initialHeroes = {
   isFirstVisit: true,
+  isFavorite: false,
   heroes: [],
   results: [],
   comics: [],
   paginate: [],
-  querySearch: []
+  querySearch: [],
+  favorites: []
 };

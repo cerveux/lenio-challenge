@@ -6,22 +6,29 @@ const HerosResults = ({}) => {
   const [random, setRandom] = useState(null)
 
   const heroesContext = useProvider();
-  const fullHeroesList = heroesContext.heroes;
-  const heroes = heroesContext.paginate;
-
+  const { heroes, paginate, isFirstVisit, favorites, isFavorite } = heroesContext;
 
   const dispatch = useHeroDispatch();
+
+  const handleFavorites = ()=>{
+    if(isFavorite){
+      return favorites
+    }else{
+      return paginate
+    }
+  }
+
 
 
 
   useEffect(() => {
-    setRandom(Math.floor(Math.random() * fullHeroesList.length));
-  }, [heroes])
+    setRandom(Math.floor(Math.random() * heroes.length));
+  }, [paginate])
   
 
-  return heroesContext.isFirstVisit ? (
+  return isFirstVisit ? (
     <section>
-      {fullHeroesList.length !== 0 ?
+      {heroes.length !== 0 ?
       <div className="hero-container mx-auto flex content-center justify-center items-center flex-col">
       
 
@@ -41,10 +48,12 @@ const HerosResults = ({}) => {
     </section>
   ) : (
     <section className="container mx-auto p-2 flex flex-wrap justify-center max-w-[1200px]">
-      {heroes.map((hero, index) => {
+
+
+      {handleFavorites().map((hero, index) => {
         return (
           <div key={index}>
-            <HeroCard index={index} source={'paginate'} />
+            <HeroCard index={index} source={isFavorite? 'favorites':'paginate'} />
           </div>
         );
       })}
