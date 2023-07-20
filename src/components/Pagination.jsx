@@ -21,7 +21,7 @@ const Pagination = ({ heroePerPage, handleCurrentPage }) => {
 
 
   return (
-    <div className='buttons-container container mx-auto flex flex-row justify-center'>
+    <div className='buttons-container container mx-auto flex flex-wrap w-64 sm:w-full flex-row justify-center'>
         {pages.map((page, index)=>{
             return <button key={index} className={`border-2 p-2 h-11 w-11 rounded-lg ${page === buttonIndex && "bg-red-500 text-white font-bold"}`}
             onClick={()=> handleClick(page)} >{page}</button>
