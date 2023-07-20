@@ -22,7 +22,7 @@ function App() {
 
             <Home />
           } />
-          <Route path='/:search' element={<SearchResults />} />
+          <Route path='/search' element={<SearchResults />} />
         </Routes>
 
       </BrowserRouter>
