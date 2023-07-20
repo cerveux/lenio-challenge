@@ -4,10 +4,9 @@ import { useProvider, useHeroDispatch } from "../context/AppContextProvider";
 import Loading from "./Loading";
 
 const HerosResults = ({}) => { 
-  const [random, setRandom] = useState(null)
 
   const heroesContext = useProvider();
-  const { heroes, paginate, isFirstVisit, favorites, isFavorite } = heroesContext;
+  const { heroes, paginate, isFirstVisit, favorites, isFavorite, random } = heroesContext;
 
   const dispatch = useHeroDispatch();
 
@@ -19,23 +18,15 @@ const HerosResults = ({}) => {
     }
   }
 
-
-
-
-  useEffect(() => {
-    setRandom(Math.floor(Math.random() * heroes.length));
-  }, [paginate])
-  
-
   return isFirstVisit ? (
     <section>
-      {heroes.length !== 0 ?
+      {random.length !== 0 ?
       <div className="hero-container mx-auto flex content-center justify-center items-center flex-col">
       
 
         <h2 className=" text-3xl font-bold mt-10 mb-5">Random Hero</h2>
         
-        <HeroCard index={random} source={'heroes'} />
+        <HeroCard index={0} source={'random'} />
 
         
         <button 
@@ -52,6 +43,7 @@ const HerosResults = ({}) => {
         }
     </section>
   ) : (
+    heroes.length !== 0?
     <section className="container mx-auto p-2 flex flex-wrap justify-center max-w-[1200px]">
 
 
@@ -62,7 +54,11 @@ const HerosResults = ({}) => {
           </div>
         );
       })}
-    </section>
+    </section>:
+    <div className="hero-container mx-auto flex content-center justify-center items-center flex-col">
+    <Loading /> 
+  
+</div>
   );
 };
 

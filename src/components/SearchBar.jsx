@@ -7,7 +7,8 @@ const NavBar = () => {
 
   const contextProvider = useProvider()
   const dispatch = useHeroDispatch()
-  const { heroes, isFavorite, isFirstVisit} = contextProvider;
+  const { heroes, isFavorite, isFirstVisit } = contextProvider;
+
   /* const isFavorite = contextProvider.isFavorite; */
 
   const [searchParams, setSearchParams] = useState({

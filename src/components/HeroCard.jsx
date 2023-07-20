@@ -20,6 +20,8 @@ const HeroCard = ({ index, source }) => {
   const heroesToShow = heroesContext[source];
   const {comics, heroes} = heroesContext
 
+  
+
 
   
   let imageSrc = heroesToShow[index].thumbnail.path + "." + heroesToShow[index].thumbnail.extension
@@ -89,7 +91,6 @@ const HeroCard = ({ index, source }) => {
     getComics(heroesToShow[index].id)
     .then((comics) =>
     comics.filter((comic) => {
-          //erase unaviable images
           return (
             comic.thumbnail.path !==
               "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available" &&
@@ -99,7 +100,6 @@ const HeroCard = ({ index, source }) => {
         })
       )
     .then(res=>{
-      console.log(res);
       dispatch({
       type: 'comics',
       comics: (res)
