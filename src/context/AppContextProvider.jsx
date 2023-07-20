@@ -50,6 +50,9 @@ function heroesReducer(heroes, action) {
     case "favorite list": 
     return {...heroes, favorites: action.favorites}
 
+  case "random": 
+    return {...heroes, random: action.random}
+
     default: {
       throw Error('Unknown action: ' + action.type);
     }
@@ -64,5 +67,6 @@ const initialHeroes = {
   comics: [],
   paginate: [],
   querySearch: [],
-  favorites: []
+  favorites: [],
+  random: []
 };
