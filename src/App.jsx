@@ -1,8 +1,7 @@
-import { useState, createContext } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './screens/Home'
 import SearchBar from './components/SearchBar'
-import Heroes from './screens/Heroes'
+
 
 import { useApi } from './hooks/useApi'
 import './styles/App.css'
