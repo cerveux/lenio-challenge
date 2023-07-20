@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import HeroCard from "./HeroCard";
 import { useProvider, useHeroDispatch } from "../context/AppContextProvider";
+import Loading from "./Loading";
 
 const HerosResults = ({}) => { 
   const [random, setRandom] = useState(null)
@@ -44,7 +45,11 @@ const HerosResults = ({}) => {
           Show all heroes
         </button>
       </div>:
-      'Loading' }
+      <div className="hero-container mx-auto flex content-center justify-center items-center flex-col">
+        <Loading /> 
+      
+    </div>
+        }
     </section>
   ) : (
     <section className="container mx-auto p-2 flex flex-wrap justify-center max-w-[1200px]">
