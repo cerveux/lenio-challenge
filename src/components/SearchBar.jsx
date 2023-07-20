@@ -7,7 +7,8 @@ const NavBar = () => {
 
   const contextProvider = useProvider()
   const dispatch = useHeroDispatch()
-  const { heroes, isFavorite, isFirstVisit} = contextProvider;
+  const { heroes, isFavorite, isFirstVisit } = contextProvider;
+
   /* const isFavorite = contextProvider.isFavorite; */
 
   const [searchParams, setSearchParams] = useState({
@@ -47,7 +48,7 @@ const NavBar = () => {
   
   useEffect(() => {
     heroes.length == 0 && 
-    prueba() //CAMBIAR DE PRUEBA A GETHEROES PARA TRABAJAR CON LA API
+    getHeroes() //CAMBIAR DE PRUEBA A GETHEROES PARA TRABAJAR CON LA API
   }, [])
 
   useEffect(()=>{

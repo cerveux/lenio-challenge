@@ -38,10 +38,27 @@ export function useApi() {
 
 
   }
+
+  async function getRandomHero(){
+    const randomNumber = Math.floor(Math.random() * 1500)
+
+    const charactersUrl = `${baseUrl}/characters?offset=${randomNumber}&limit=1&${query}`;
+    const heroesCluster = await fetch(charactersUrl)
+      .then((res) => res.json())
+      .then((response) => response.data.results)
+      .then(res => {
+        dispatch({
+          type: 'random',
+          random: res
+        })
+      })
+
+  }
   
   function getHeroes(params) {
 
     const promises = []
+    getRandomHero()
 
 
     for(let i=0 ; i <= 1550; i += 100){
