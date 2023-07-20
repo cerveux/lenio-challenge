@@ -2,12 +2,13 @@ import React, { useEffect } from 'react'
 import { useProvider, useHeroDispatch } from '../context/AppContextProvider';
 import { useSearchParams } from "react-router-dom";
 import HeroCard from '../components/HeroCard';
+import Loading from '../components/Loading';
 
 
 const SearchResults = () => {
   const heroesContext = useProvider();
-  const fullHeroesList = heroesContext.heroes;
-  const queryHeroesList = heroesContext.querySearch;
+  const {heroes, querySearch} = heroesContext;
+
 
   const dispatch = useHeroDispatch()
 
@@ -28,7 +29,7 @@ const SearchResults = () => {
       type: "watched"
     })
 
-    const searchResult = fullHeroesList.filter((hero)=>{
+    const searchResult = heroes.filter((hero)=>{
       return(
         hero.name.toLowerCase().includes(queryParams)
       )
@@ -42,15 +43,20 @@ const SearchResults = () => {
 
 
 
-  },[fullHeroesList, searchParams])
+  },[heroes, searchParams])
 
   
 
   return (
+    heroes.length == 0 ?
+    <div className="hero-container mx-auto flex content-center justify-center items-center flex-col">
+    <Loading />
+  
+</div>:
     
-    queryHeroesList.length !== 0 &&
+    querySearch.length !== 0 &&
     <section className="container mx-auto p-2 flex flex-wrap justify-center max-w-[1200px]">
-      {queryHeroesList.map((hero, index) => {
+      {querySearch.map((hero, index) => {
         return (
           <div key={index}>
             <HeroCard index={index} source={'querySearch'} />
